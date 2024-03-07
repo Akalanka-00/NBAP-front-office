@@ -1,0 +1,15 @@
+<div class="w-100 my-1">
+  <div class="floating-input">
+    <input #floatingInput
+      [type]="type"
+      [formControl]="formControl"
+      [id]="id"
+      placeholder=" "
+      (ngModelChange)="onInputChange($event)"
+      (blur)="onInputeBlur()"
+      
+    />
+    <label for="{{ id }}"  (click)="floatingInput.focus()">{{ label }}</label>
+  </div>
+  <span class="input-error">{{ error }}</span>
+</div>
