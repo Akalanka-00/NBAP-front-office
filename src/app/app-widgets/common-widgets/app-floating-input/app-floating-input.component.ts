@@ -10,6 +10,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.directive';
+import { CommonModule } from '@angular/common';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -21,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-floating-input',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule,],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule],
   templateUrl: './app-floating-input.component.html',
   styleUrl: './app-floating-input.component.scss'
 })
@@ -48,8 +49,8 @@ export class AppFloatingInputComponent extends BaseWidgetDirective{
   private _toggleBlur: boolean=false;
   private _currentBlurStatus: boolean=false;
 
-  constructor(injector: Injector){
-    super(injector);
+  constructor(){
+    super();
   }
 
   public get floatingInput(): string{
@@ -79,9 +80,12 @@ public override onInit(): void {
   }
 
   public onInputeBlur():void{
-    console.log(this._textInput);
     this.floatingInputChange.emit(this._textInput);
 
+  }
+
+  protected isError(): boolean{
+    return this.error != '';
   }
 
 

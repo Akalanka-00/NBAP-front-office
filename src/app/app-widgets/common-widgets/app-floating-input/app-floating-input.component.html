@@ -1,15 +1,15 @@
 <div class="w-100 my-1">
   <div class="floating-input">
+    <label [for]="id">{{ label }} <span *ngIf="isRequired" class="required">*</span></label>
     <input #floatingInput
       [type]="type"
       [formControl]="formControl"
       [id]="id"
-      placeholder=" "
+      [placeholder]="placeholder"
       (ngModelChange)="onInputChange($event)"
       (blur)="onInputeBlur()"
-      
+      [required]="!isRequired"
     />
-    <label for="{{ id }}"  (click)="floatingInput.focus()">{{ label }}</label>
   </div>
-  <span class="input-error">{{ error }}</span>
+  <span *ngIf="isError()" class="input-error">{{ error }}</span>
 </div>

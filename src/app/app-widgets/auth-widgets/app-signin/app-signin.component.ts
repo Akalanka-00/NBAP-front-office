@@ -1,23 +1,20 @@
 import { Component } from '@angular/core';
 import { AppFloatingInputComponent } from '../../common-widgets/app-floating-input/app-floating-input.component';
-import { UserStatus, UserTypes } from '../../../app-constants/enum/user.enum';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserSignUpModel } from '../../../app-constants/interface/user.interface';
 import { Router } from '@angular/router';
-
+import { UserSignUpModel } from '../../../app-constants/interface/user.interface';
+import { UserStatus, UserTypes } from '../../../app-constants/enum/user.enum';
 
 @Component({
-  selector: 'app-app-signup',
+  selector: 'app-app-signin',
   standalone: true,
   imports: [AppFloatingInputComponent, CommonModule, ReactiveFormsModule],
   providers: [Router],
-  templateUrl: './app-signup.component.html',
-  styleUrl: './app-signup.component.scss', 
+  templateUrl: './app-signin.component.html',
+  styleUrl: './app-signin.component.scss'
 })
-
-
-export class AppSignupComponent {
+export class AppSigninComponent {
 
   formData: UserSignUpModel ={
     id: 0,
@@ -45,12 +42,10 @@ export class AppSignupComponent {
     this.formData.createdAt = new Date();
     this.formData.status = UserStatus.pending;
     console.log(this.formData);
-    this.router.navigate(['/profiling']);
-
   }
 
   public handleLoginClick(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['/register']);
    }
 
 }

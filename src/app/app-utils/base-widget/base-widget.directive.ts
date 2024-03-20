@@ -6,8 +6,7 @@ import { AfterViewInit, Directive, Injector, OnChanges, OnDestroy, OnInit, Simpl
 })
 export class BaseWidgetDirective implements OnChanges, OnInit, OnDestroy, AfterViewInit{
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(injector: Injector) { }
+  constructor() { }
 
   public onInit(): void {
 
@@ -41,6 +40,7 @@ export class BaseWidgetDirective implements OnChanges, OnInit, OnDestroy, AfterV
     this.onViewAppear();
   }
 
+  
 
 
 }

@@ -30,7 +30,16 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@angular-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "accessibility": "explicit",
+            "overrides": {
+              "constructors": "no-public"
+            }
+          }
+        ],
       }
     },
     {

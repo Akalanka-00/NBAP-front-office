@@ -1,0 +1,128 @@
+$navbar-height: 3.5rem;
+$menu-item-text-width: 7rem;
+
+.nbit-dashboard-container{
+
+    .nbit-navbar{
+        position: fixed;
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: #fff;
+        box-shadow: inset 0 -1px 0 0 #e0e0e0;
+        height: $navbar-height;
+    
+        .branding{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-items: flex-start;
+            gap: 0.5rem;
+    
+            span{
+                font-size: 1.5rem;
+                font-weight: 500;
+            }
+        }
+    
+        .nbit-navbar-options{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1.5rem;
+            margin-right: 1rem;
+        }
+    }
+
+    .nbit-dashboard-body{
+        height: calc(100% - $navbar-height);
+        display: flex;
+        flex-direction: row;
+
+        .nbit-sidebar-container{
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+            padding: 0 1rem;
+            position: fixed;
+            margin-top: $navbar-height;
+            padding-top: 1rem;
+            box-shadow: inset 0 0 5px #e0e0e0;
+        
+            .sidebar-item{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                padding: 0.3rem 2rem;
+                margin: 0.3rem 0;
+                cursor: pointer;
+                border-radius: 10px;
+                
+                .sidebar-item-title{
+                    font-size: 1.2rem;
+                    font-weight: 500;
+                    width: $menu-item-text-width;
+                }
+            }
+            
+            .sidebar-item:hover{
+                color: #fff;
+                background-image: var(--color-bg-gradient);
+                cursor: pointer;
+                transform: translateX(-0.8rem);
+                transition: all 100ms ease-in-out;
+
+            }
+
+            .sidebar-item-active{
+                color: #fff;
+                background-image: var(--color-bg-gradient);
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                padding: 0.3rem 2rem;
+                margin: 0.3rem 0;
+                cursor: pointer;
+                border-radius: 10px;
+                transform: translateX(-0.8rem);
+                transition: all 100ms ease-in-out;
+
+                
+                .sidebar-item-title{
+                    font-size: 1.2rem;
+                    font-weight: 500;
+                    width: $menu-item-text-width;
+                }
+            }
+        
+        }
+
+        .nbit-dashboard-content{
+            padding: 1rem 2rem;
+            position: absolute;
+            width: 100%;
+            margin-top: $navbar-height;
+            padding-left: $menu-item-text-width + 10rem;
+            z-index: -1;
+        }
+        
+        
+    }
+}
+
+
+
+
+
+
