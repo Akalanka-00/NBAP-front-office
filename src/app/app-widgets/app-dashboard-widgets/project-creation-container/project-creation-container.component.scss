@@ -1,0 +1,55 @@
+@import url('../../../styles/dashboard-fragment.styles.scss');
+
+.mat-stepper-vertical {
+    margin-top: 8px;
+  }
+  
+  .mat-mdc-form-field {
+    margin-top: 16px;
+  }
+
+  .project-url-card {
+    margin-left: 30rem;
+
+  }
+
+  .project-url{
+    padding: 0.5rem 1rem;
+    box-shadow: 0 1px 0 0 rgba(120,49,196,.15);  
+    border-radius: 10px 10px 0 0;
+
+    a{
+        text-decoration: none;
+        color: #000;
+        
+    }
+    .delete-btn{
+        color: var(--color-error);
+        cursor: pointer;
+    }
+}
+
+.project-url:hover{
+
+    background-color: rgba(0, 0, 255, 0.03); 
+    box-shadow: 0 1px 0 0 rgba(120,49,196,.5);  
+    transition: all 100ms ease-in-out;
+
+
+}
+
+  .animate-colors{
+    animation: chromeAnimation 6s linear infinite;
+}
+
+  
+  @keyframes chromeAnimation {
+    from {
+        color: var(--color-primary);
+        transform: rotate(0deg); 
+    }
+    to {
+        color: var(--color-secondary);
+        transform: rotate(360deg); 
+    }
+  }

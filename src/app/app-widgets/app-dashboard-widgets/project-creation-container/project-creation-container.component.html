@@ -1,0 +1,153 @@
+<div class="fragment">
+    <div class="fragment-header">
+        <div class="fragment-title">New Project</div>
+    </div>
+
+    <div class="fragment-body">
+        <mat-stepper orientation="vertical" [linear]="isLinear" #stepper animationDuration="600">
+            <mat-step [stepControl]="firstFormGroup">
+              <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Project Details</ng-template>
+
+                <div class="form-group col-4 d-flex flex-column align-items-start justify-content-center gap-1 mt-1">
+                    <label for="project_name">Project Name</label>
+                    <input type="text" class="form-control" id="project_name" placeholder="Project Name">
+                  </div>
+
+                  <div class="project-duration">
+                    <div class="row col-6">
+                        <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                            <label for="project_name">Project Start Date</label>
+                            <input type="date" class="form-control" id="project_name" placeholder="Project Name">
+                          </div>
+        
+                          <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                            <label for="project_name">Project Start Date</label>
+                            <input type="date" class="form-control" id="project_name" placeholder="Project Name">
+                          </div>
+                      </div>
+
+                      <div class="form-check form-switch mt-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Mark as ongoing project</label>
+                      </div>
+                  </div>
+
+                  <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                    <label for="project_name">Project Name</label>
+                    <input type="text" class="form-control" id="project_name" placeholder="Project Name">
+                  </div>
+
+                  <div class="form-check form-switch mt-4">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Enable rating for this project</label>
+                  </div>
+
+                  <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Mark this project as an private project</label>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+                    <div></div>
+                    <button class="nba-btn-primary" matStepperNext>Next</button>
+                  </div>
+              </form>
+            </mat-step> 
+
+             <mat-step [stepControl]="secondFormGroup">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Referencing URLs</ng-template>
+
+                <div class="row col-10 d-flex align-items-center justify-content-center">
+                    <div class="form-group col-4 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                        <label for="project_name">Host name</label>
+                        <input type="text" class="form-control" id="project_name" placeholder="Host Name">
+                      </div>
+    
+                      <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                        <label for="project_name">Referenced URL</label>
+                        <input type="url" class="form-control" id="project_name" placeholder="URL">
+                      </div>
+
+                      <div class="form-group col-2 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                        <label for="add_url" style="height: 1.2rem;"></label>
+                        <button class="nba-btn-primary" id="add_url" >Add URL</button>
+                    </div>
+                    
+                    </div>
+
+                    <div class="row col-10 d-flex align-items-start justify-content-center mt-4">
+                        <div class="project-urls-title fs-6 mb-2">Currently added URLS</div>
+                        <div class="project-url-card card p-4 mx-4 d-flex gap-3">
+                            <div *ngFor="let url of externalURLS" class=" project-url d-flex flex-row align-items-start justify-content-between gap-4">
+                                <i class="bi bi-browser-chrome animate-colors"></i>
+                                <div class="">{{ url.hostname }} </div>
+                                <div class="">{{ url.url }} </div>
+                                <a [href]="url.url" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+                                <i class="bi bi-trash delete-btn"></i>
+                        </div>
+                        </div>
+                    </div>
+                
+                <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+                  <button class="nba-btn-secondary"  matStepperPrevious>Back</button>
+                  <button class="nba-btn-primary" matStepperNext>Next</button>
+                </div>
+              </form>
+            </mat-step>
+
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                  <ng-template matStepLabel>Project Description</ng-template>
+                  
+                  <div class="form-group col-10 mt-4">
+                    <label for="exampleFormControlTextarea1">Short Description</label>
+                    <textarea class="form-control mt-2" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+
+                  <div class="form-group col-10 mt-4">
+                    <label for="exampleFormControlTextarea1">Description</label>
+
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+                    <button class="nba-btn-secondary"  matStepperPrevious>Back</button>
+                    <button class="nba-btn-primary" matStepperNext>Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                  <ng-template matStepLabel>Project Media files</ng-template>
+                  
+                  <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Import from the Gallary</label>
+                  </div>
+
+                  <div class="form-group col-10 mt-4">
+                    <label for="exampleFormControlTextarea1">Short Description</label>
+                    <input type="url" class="form-control" id="exampleFormControlTextarea1" placeholder="URL">
+                  </div>
+
+
+                  <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+                    <button class="nba-btn-secondary"  matStepperPrevious>Back</button>
+                    <button class="nba-btn-primary" matStepperNext>Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+            <mat-step>
+              <ng-template matStepLabel>Summary</ng-template>
+              <p>You are now done.</p>
+              <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+                <button class="nba-btn-secondary"  matStepperPrevious>Back</button>
+                <button  class="nba-btn-primary" matStepperPrevious>Finish</button>
+              </div>
+            </mat-step>
+          </mat-stepper>
+    </div>
+</div>
