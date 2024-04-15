@@ -180,9 +180,12 @@ export class ProjectCreationContainerComponent extends BaseWidgetDirective {
     return this.imageList;
   }
 
-  protected removeFile(file: File): void {
+  protected removeFile(file: string): void {
     this.cdr.detectChanges();
-    this.imageList = this.imageList.filter(f => f !== file);
+    const i = this.imageLocalUrlList.indexOf(file);
+    this.imageLocalUrlList = this.imageLocalUrlList.filter(f => f !== file);
+    
+    this.imageList = this.imageList.splice(i, 1);
   
   }
 

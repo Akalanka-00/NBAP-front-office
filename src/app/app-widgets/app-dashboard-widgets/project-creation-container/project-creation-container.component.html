@@ -122,8 +122,8 @@
                   </div>
 
                   <div *ngIf="getFiles().length>0" class="image-list-container">
-                    <div class="image-container" *ngFor="let image of getFiles()">
-                      <img class="img-fluid image-item" [src]="readFile(image)" [alt]="image.name">
+                    <div class="image-container" *ngFor="let image of imageLocalUrlList">
+                      <img class="img-fluid image-item" [src]="image" [alt]="image">
                       <i class="bi bi-x-circle img-close-btn" (click)="removeFile(image)"></i>
 
                     </div>
