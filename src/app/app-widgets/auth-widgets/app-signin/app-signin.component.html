@@ -5,12 +5,19 @@
             <div class="h3">Nexus Bit API Portal</div>
             <div class="sub-title">Register here</div>
             
-            <form class="mx-4 p-3 h-100" (submit)="onSubmit($event)">
+            <form class="mx-4 p-3 h-100" [formGroup]="signInForm" (submit)="onSubmit($event)">
                
                <div class="d-flex flex-column gap-2 mt-2 mx-4">
-                    <app-floating-input id="email" placeholder="Email" type="email" label="Email" [(floatingInput)] = "formData.email" [isRequired]= "true" class="w-100"></app-floating-input>
-                    <app-floating-input id="password" placeholder="password" type="password" label="Password" [(floatingInput)] = "formData.password" autofill="password" [isRequired]= "true" class="w-100"></app-floating-input>
-                  
+                <div class="form-group  d-flex flex-column align-items-start justify-content-center gap-1 mt-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email Address">
+                  </div>
+
+                    <div class="form-group d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                        <label for="psw">Password</label>
+                        <input type="password" class="form-control" formControlName="password" id="psw" placeholder="Password">
+                      </div>
+
                     <button class="nba-btn-primary mt-2 w-100" type="submit" >Sign In</button>
                    
                     <div class="d-flex flex-row align-items-center justify-content-start gap-2">

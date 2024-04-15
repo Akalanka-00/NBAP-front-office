@@ -1,56 +1,64 @@
-import { Component } from '@angular/core';
-import { AppFloatingInputComponent } from '../../common-widgets/app-floating-input/app-floating-input.component';
+import { Component, inject } from '@angular/core';
 import { UserStatus, UserTypes } from '../../../app-constants/enum/user.enum';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserSignUpModel } from '../../../app-constants/interface/user.interface';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { HotToastService } from '@ngneat/hot-toast';
+import { AuthAPIService } from '../../../app-services/api-services/auth-api.service';
+import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.directive';
 
 
 @Component({
   selector: 'app-app-signup',
   standalone: true,
-  imports: [AppFloatingInputComponent, CommonModule, ReactiveFormsModule],
+  imports: [ CommonModule, ReactiveFormsModule],
   providers: [Router],
   templateUrl: './app-signup.component.html',
   styleUrl: './app-signup.component.scss', 
 })
 
 
-export class AppSignupComponent {
+export class AppSignupComponent extends BaseWidgetDirective{
 
-  formData: UserSignUpModel ={
-    id: 0,
-    fname: '',
-    lname: '',
-    email: '',
-    password: '',
-    status: '',
-    createdAt: new Date(),
-    type: UserTypes.user,
-  };
-  public confirmPassword: string = '';
+  
 
+  public signUpForm = new FormGroup({
+    fname: new FormControl('', [Validators.required, Validators.pattern("[a-zA-Z ]*")]),
+    lname: new FormControl('', [Validators.required, Validators.pattern("[a-zA-Z ]*")]),
+    email: new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]),
+    password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()_+}{":;\'?/>.<,])(?!.*\\s).{8,16}$')]),
+    confirmPassword: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()_+}{":;\'?/>.<,])(?!.*\\s).{8,16}$')])
+  });
 
-  public fnameErr: string = '';
-  public lnameErr: string = '';
-  public emailErr: string = '';
-  public passwordErr: string = '';
-  public confirmPasswordErr: string = '';
-
-  constructor(private router: Router){}
+  constructor(private router: Router,  private authService: AuthAPIService){
+    super(inject(HotToastService));
+  }
 
   public onSubmit(event: Event){
     event.preventDefault();
-    this.formData.createdAt = new Date();
-    this.formData.status = UserStatus.pending;
-    console.log(this.formData);
-    this.router.navigate(['/profiling']);
+    if( this.validator(this.signUpForm)){
+       const formData: UserSignUpModel = {
+        fname: this.signUpForm.value.fname ?? '',
+        lname: this.signUpForm.value.lname ?? '',
+        email: this.signUpForm.value.email ?? '',
+        password: this.signUpForm.value.password ?? '',
+       };
+       this.authService.signUpUser(formData);
+    }
+    // console.log(this.signUpForm.value);
+    // this.formData.createdAt = new Date();
+    // this.formData.status = UserStatus.pending;
+    // console.log(this.formData);
+    // this.router.navigate(['/profiling']);
 
   }
 
   public handleLoginClick(){
     this.router.navigate(['/login']);
    }
+
+   
 
 }

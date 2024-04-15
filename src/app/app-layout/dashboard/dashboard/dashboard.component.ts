@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.directive';
 import { WIDGHET_ITEMS } from '../../../app-config/sidebar-menu-items';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,7 @@ export class DashboardComponent extends BaseWidgetDirective{
   public menuItems: Array<any> = [];
 
   constructor(private router: Router) {
-    super();
+    super(inject(HotToastService));
     console.log(router.url)
 
   }
@@ -29,7 +30,6 @@ export class DashboardComponent extends BaseWidgetDirective{
   }
 
   public activeSidebarItem(menu: any): string{
-    console.log(this.router.url)
     return (this.router.url).includes(menu.url) ? '-active' : '';
   }
 
