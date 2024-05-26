@@ -1,0 +1,28 @@
+
+
+<app-empty-data-widget *ngIf="!project" [message]="'No project found'"></app-empty-data-widget>
+<div class="project-view-container container">
+    <div class="project-header">
+        <div class="project-header-title">
+            {{ project.name }} {{ project.startDate.getFullYear() }} 
+            {{project.ongoing ? '- Present' : project.endDate.getFullYear() === project.startDate.getFullYear() ? '- Present'  : project.endDate.getFullYear()}} <span *ngIf="project.ongoing" class="project-header-subtitle">Ongoing</span>
+        </div>
+        <img class="project-header-image col-md-8" [src]="project.banner.url" alt="project image">
+        <div class="project-description">{{ project.description }}</div>
+        <div class="ref-url-list">
+            <div class="ref-url-container" *ngFor="let url of project.referenceUrls">
+                    <img class="ref-icon" [src]="url.icon" (error)="handleFavIconError(url.url)">
+                <div class="ref-hostname">{{ url.hostname }}</div>
+            </div>
+        </div>
+       
+    </div>
+
+    <div class="project-body">
+        <div *ngIf="project.mediaFiles.length>0" class="project-media-list">
+            <div class="project-media-container" *ngFor="let media of project.mediaFiles">
+                <img class="project-media" [src]="media.url" alt="project media">
+            </div>
+        </div>
+    </div>
+</div>

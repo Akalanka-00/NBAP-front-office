@@ -1,7 +1,9 @@
 
 export enum UserTypes {
-    user= 'user',
-    admin= 'admin'
+    admin= 'admin',
+    standard= 'standard',
+    premium = 'premium',
+    public= 'public'
 }
 
 /**

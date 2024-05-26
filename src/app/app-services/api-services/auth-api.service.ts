@@ -23,6 +23,9 @@ export class AuthAPIService  {
     return this.apiService.post(ApiEndpoints.register, user).subscribe(
       res =>{
         this.apiService.postErrorHandler(res);
+        if(res.status == 201){
+          this.signInUser({email: user.email, password: user.password});
+        }
       }
     )
   }
@@ -33,12 +36,10 @@ export class AuthAPIService  {
     return this.apiService.get(ApiEndpoints.login) .subscribe(
       res => {
         this.apiService.getErrorHandler(res);
-        console.log(res);
         window.sessionStorage.setItem(SessionStorageKeys.AUTHORIZATION, res.headers.get(SessionStorageKeys.AUTHORIZATION)!);
         this.user = <any>res.body;
         const xsrf = String(getCookie(SessionStorageKeys.XSRF_TOKEN));
-        console.log(res);
-        console.log(xsrf);
+       
         window.sessionStorage.setItem(SessionStorageKeys.XSRF_TOKEN, xsrf);
         this.user.authStatus = 'AUTH';
         window.sessionStorage.setItem(SessionStorageKeys.CREDENTIALS, JSON.stringify(this.user));

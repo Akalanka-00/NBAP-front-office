@@ -1,0 +1,20 @@
+.empty-data-container{
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img{
+        animation: moveUpDown 3s ease infinite;
+    }
+
+    @keyframes moveUpDown {
+        0%, 100% {
+          transform: translateY(0); 
+        }
+        50% {
+          transform: translateY(-25px); 
+        }
+      }
+}

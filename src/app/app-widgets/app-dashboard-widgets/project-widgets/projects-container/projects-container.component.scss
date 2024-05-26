@@ -1,0 +1,107 @@
+@import url('../../../../styles/dashboard-fragment.styles.scss');
+
+.project-list-container{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    .project-container{
+
+        .project-card-header{
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #eee;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+
+            .project-preview-panel{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 0.4rem 0.4rem;
+                margin-top: 0.4rem;
+
+                img{
+                    width: fit-content;
+                    height: 5rem;
+                    object-fit: cover;
+                    border-radius: 10px;
+                }
+
+                .text-preview{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.4rem;
+                    margin-top: 0.2rem;
+
+
+                    .project-card-title{
+                        font-weight: 500;
+                        margin-left: 0.5rem;
+                        font-size: 0.8rem;
+                    }
+
+                   
+                }
+
+               
+            }
+
+            .project-heder-body{
+                width: 70%;
+            }
+
+            .private-project-label{
+                font-size: 0.7rem;
+                background-color: var(--color-error);
+                color: #fff;
+                padding: 0.1rem 0.5rem;
+                border-radius: 20px;
+                width: fit-content;
+            }
+
+            .published-project-label{
+                font-size: 0.7rem;
+                background-color: var(--color-success);
+                color: #fff;
+                padding: 0.1rem 0.5rem;
+                border-radius: 20px;
+                width: fit-content;
+
+            }
+
+            .project-description{
+               font-size: 1rem;
+            }
+
+            .project-actions-and-status{
+
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: space-between;
+                height: 100%;
+                gap: 1rem;
+
+                
+            }
+
+            
+        }
+
+        .project-card-header:hover{
+            background-color: #ddd;
+            transition: color 0.5s ease-in-out;
+        }
+    }
+}

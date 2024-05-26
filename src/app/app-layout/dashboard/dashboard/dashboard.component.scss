@@ -114,8 +114,13 @@ $menu-item-text-width: 7rem;
             padding: 1rem 2rem;
             position: absolute;
             width: 100%;
+            height: calc(100vh - $navbar-height);
             margin-top: $navbar-height;
             padding-left: $menu-item-text-width + 10rem;
+
+            .dashboard-outlet{
+                height: calc(100vh - $navbar-height);
+                width: 100%;}
         }
         
         

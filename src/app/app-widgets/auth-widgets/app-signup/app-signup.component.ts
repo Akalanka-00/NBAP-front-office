@@ -37,6 +37,7 @@ export class AppSignupComponent extends BaseWidgetDirective{
   }
 
   public onSubmit(event: Event){
+    console.log("cleicked")
     event.preventDefault();
     if( this.validator(this.signUpForm)){
        const formData: UserSignUpModel = {
@@ -44,6 +45,7 @@ export class AppSignupComponent extends BaseWidgetDirective{
         lname: this.signUpForm.value.lname ?? '',
         email: this.signUpForm.value.email ?? '',
         password: this.signUpForm.value.password ?? '',
+        
        };
        this.authService.signUpUser(formData);
     }

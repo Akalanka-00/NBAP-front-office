@@ -18,7 +18,7 @@
                   <label for="project_banner">Project Banner</label>
                   <input  type="file" class="form-control" (change)="setBanner($event)" id="project_banner" placeholder="Project Banner">
 
-                  <div *ngIf="getBanner()" class="image-preview">
+                  <div *ngIf="bannerLocalUrl!=''" class="image-preview">
                     <img class="banner-img mt-4" [src]="bannerLocalUrl"/>
                   </div>
                 </div>
@@ -32,7 +32,9 @@
         
                           <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
                             <label for="project_end_date">Project End Date</label>
-                            <input type="date" class="form-control" formControlName="projectEndDate" id="project_end_date" placeholder="Project End Date">
+                            <input type="date"  class="form-control" formControlName="projectEndDate" id="project_end_date" placeholder="Project End Date">
+                            
+                            
                           </div>
                       </div>
 
@@ -44,7 +46,7 @@
 
                   <div class="form-group col-10 mt-4">
                     <label for="description">Description</label>
-                    <textarea class="form-control mt-2" formControlName="description" id="description" rows="3"></textarea>
+                    <textarea class="form-control mt-2" formControlName="description" id="description" rows="7"></textarea>
                   </div>
 
                   <div class="form-check form-switch mt-4">
@@ -121,7 +123,7 @@
                       <span class="drag-and-drop-title">Drag and Drop</span></label>
                   </div>
 
-                  <div *ngIf="getFiles().length>0" class="image-list-container">
+                  <div *ngIf="imageLocalUrlList.length>0" class="image-list-container">
                     <div class="image-container" *ngFor="let image of imageLocalUrlList">
                       <img class="img-fluid image-item" [src]="image" [alt]="image">
                       <i class="bi bi-x-circle img-close-btn" (click)="removeFile(image)"></i>
@@ -154,7 +156,7 @@
   
                 <div *ngIf="getReferenceUrl().length>0" class="d-flex flex-column align-items-start justify-content-start">
                   <div class="d-flex flex-row align-items-center justify-content-center gap-4 px-4 mt-2 " *ngFor="let url of getReferenceUrl()">
-                    <i class="bi bi-browser-chrome"></i>
+                    <img class="img-fluid w-5 rounded-circle" [src]="url.icon"  alt="">
                     <div class="">{{ url.hostname }} </div>
                     <a class="">{{ url.url }} </a>
                   </div>

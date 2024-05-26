@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -11,11 +11,9 @@ export class BaseApiService {
 
   private baseURL: string = 'http://localhost:8080'
 
-
-  public get(url: string): Observable<HttpResponse<any>>{
-    console.log('is secure'+ this.isSecure(url));
+  public get(url: string, pathVariable?: string): Observable<HttpResponse<any>>{
     try {
-       return this.http.get(this.baseURL+url, { observe: 'response',  withCredentials: this.isSecure(url)});
+       return this.http.get(`${this.baseURL}${url}${(pathVariable!=='' && pathVariable!=null && pathVariable!= undefined) ? "/"+pathVariable: ''}`, { observe: 'response',  withCredentials: this.isSecure(url)});
     } catch (error) {
       console.log(error);
       this.apiError(error);
@@ -25,10 +23,9 @@ export class BaseApiService {
 
 
   public post(url: string, data: any): Observable<HttpResponse<any>>{
-
-    const {formatData, params} = this.excludeFiles(data);
+    const { data: formatData, params} = this.excludeFiles(data);
     try {
-      return this.http.post(this.baseURL+url, data, { observe: 'response',  withCredentials: this.isSecure(url) });
+      return this.http.post(this.baseURL+url, data, { observe: 'response',  withCredentials: this.isSecure(url)});
     } catch (error) {
       console.log(error);
       this.apiError(error);
@@ -77,15 +74,24 @@ export class BaseApiService {
     let i = false;
     
     for(const key in obj){
-      if(obj[key as keyof T] instanceof File || (Array.isArray(obj[key as keyof T]) && (obj[key as keyof T] as File[]).every(item => item instanceof File))){
-        params.append(key, obj[key as keyof T] instanceof File? obj[key as keyof T] as File : 
-          (Array.isArray(obj[key as keyof T]) && (obj[key as keyof T] as File[]).every(item => item instanceof File))? obj[key as keyof T] as File[] : obj[key as keyof T] as any);
+      if(obj[key as keyof T] instanceof File ){
+        params.append(key, obj[key as keyof T] as any);
+        console.log(key, obj[key as keyof T] as any);
           i=true;
+        continue;
+      }else if((Array.isArray(obj[key as keyof T]) && (obj[key as keyof T] as File[]).every(item => item instanceof File))){
+        for(const item of obj[key as keyof T] as File[]){
+          params.append(key, item);
+          console.log(key, item);
+          i=true;
+        }
         continue;
       }
       newObj[key] = obj[key];
     }
-    return {data: newObj, params: (i? params: null)};
+    const output =  {data: newObj, params: (i? params: null)};
+    console.log(output);
+    return output;
   }
 
   constructor(protected http: HttpClient) { }

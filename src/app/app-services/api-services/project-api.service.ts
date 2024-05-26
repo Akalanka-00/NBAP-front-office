@@ -16,13 +16,12 @@ import { HotToastService } from "@ngneat/hot-toast";
   constructor(private router: Router, private toast: HotToastService) {}
 
   public  getProjects() {
-    return this.apiService.get(ApiEndpoints.fetchProjects).subscribe(
-      res =>{
-        console.log(res);
-        this.apiService.getErrorHandler(res);
-      }
-    )
+     return this.apiService.get(ApiEndpoints.fetchProjects);
   }
+
+  public  getProject(id: string) {
+    return this.apiService.get(ApiEndpoints.fetchProject, id);
+ }
 
   public  newProject(data: ProjectFormModel) {
     return this.apiService.post(ApiEndpoints.newProject, data).subscribe(

@@ -21,8 +21,6 @@ export class DashboardComponent extends BaseWidgetDirective{
 
   constructor(private router: Router) {
     super(inject(HotToastService));
-    console.log(router.url)
-
   }
 
   public override onInit(): void {

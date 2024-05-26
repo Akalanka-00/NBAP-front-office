@@ -2,17 +2,22 @@ import { ChangeDetectorRef, Component, SimpleChanges, inject } from '@angular/co
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CommonModule } from '@angular/common';
-import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.directive';
+import { BaseWidgetDirective } from '../../../../app-utils/base-widget/base-widget.directive';
 import { HotToastService } from '@ngneat/hot-toast';
 import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProjectFormModel, ReferenceUrl } from '../../../app-constants/interface/project.interface';
-import { ProjectAPIService } from '../../../app-services/api-services/project-api.service';
-import { FileService } from '../../../app-utils/utils/file-service';
+import { ProjectFormModel, ProjectResponseModel, ReferenceUrl } from '../../../../app-constants/interface/project.interface';
+import { ProjectAPIService } from '../../../../app-services/api-services/project-api.service';
+import { FileService } from '../../../../app-utils/utils/file-service';
+import { ActivatedRoute } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
-
+export enum MODE {
+   EDIT = 'edit',
+  CREATE = 'create'
+}
 
 @Component({
   selector: 'app-project-creation-container',
@@ -22,6 +27,8 @@ import { FileService } from '../../../app-utils/utils/file-service';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    MatFormFieldModule,
+    
   ],
   templateUrl: './project-creation-container.component.html',
   styleUrl: './project-creation-container.component.scss'
@@ -38,8 +45,8 @@ export class ProjectCreationContainerComponent extends BaseWidgetDirective {
 
   public detailsForm = new FormGroup({
     projectName: new FormControl('', [Validators.required]),
-    projectStartDate: new FormControl(null, [Validators.required]),
-    projectEndDate: new FormControl(null, [Validators.required]),
+    projectStartDate: new FormControl(new Date(), [Validators.required]),
+    projectEndDate: new FormControl(new Date(), [Validators.required]),
     description: new FormControl('', [Validators.required]),
     isOngoing: new FormControl( false, [Validators.required]),
     canRate: new FormControl( false, [Validators.required]),
@@ -48,6 +55,7 @@ export class ProjectCreationContainerComponent extends BaseWidgetDirective {
 
   public imageLocalUrlList: string[] = [];
   public bannerLocalUrl: string = '';
+  public project!: ProjectResponseModel;
 
   public referenceUrlForm = new FormGroup({
     hostname: new FormControl('', [Validators.required]),
@@ -62,9 +70,11 @@ export class ProjectCreationContainerComponent extends BaseWidgetDirective {
 
   private maxFiles = 5;
   private maxFileSize = 8*1024*1024;
+  private projectId: string = '';
+  private projectMode: MODE = MODE.CREATE;
 
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private apiService: ProjectAPIService, private fileService: FileService) {
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private apiService: ProjectAPIService, private fileService: FileService, private route: ActivatedRoute) {
     super(inject(HotToastService));
 
     const today = new Date();
@@ -73,6 +83,44 @@ export class ProjectCreationContainerComponent extends BaseWidgetDirective {
     const day = ('0' + today.getDate()).slice(-2);
     this.maxDate = `${year}-${month}-${day}`;
     
+  }
+
+  public override onInit(): void {
+    this.projectId = this.route.snapshot.params['id'];
+    if(this.projectId) this.projectMode = MODE.EDIT;
+    if(this.projectMode !== MODE.CREATE)
+    this.apiService.getProject(this.projectId).subscribe(
+      response =>{
+        if(response.status !=200){
+          this.toastError(response.body);
+          throw new Error(String(response.body));
+        }
+        this.project = response.body;
+        this.project.startDate = new Date(this.project.startDate);
+        this.project.endDate = new Date(this.project.endDate);
+        this.project.referenceUrls.forEach(url => {
+          url.icon = this.getIcon(url.url);
+        });
+
+        this.refereceUrls = this.project.referenceUrls;
+        this.imageLocalUrlList = this.project.mediaFiles.map(file => file.url);
+        this.bannerLocalUrl = this.project.banner.url;
+
+        this.detailsForm.patchValue({
+          projectName: this.project.name,
+          projectStartDate: this.project.startDate,
+          projectEndDate: this.project.endDate,
+          description: this.project.description,
+          isOngoing: this.project.ongoing,
+          canRate: this.project.canRate,
+          isPrivate: this.project.private
+        });
+        this.cdr.detectChanges();
+
+  
+      }
+    );
+
   }
   
   public async onSubmit(event: Event){
