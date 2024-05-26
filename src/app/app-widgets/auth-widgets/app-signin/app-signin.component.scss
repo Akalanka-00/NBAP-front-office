@@ -1,1 +1,53 @@
-@import url('../../../styles/auth.styles.scss');
+.login-container{
+    background-color: #f2f6fb;
+    .login-left{
+        border-radius:  10px 0 0 10px ;
+        background-color: var(--color-primary);
+        .app-title{
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .login-title{
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+        }
+
+        .login-description{
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: justify;
+            padding: 0 2rem;
+        }
+    }
+
+    .login-right{
+        border-radius: 0 10px 10px 0;
+        background-color: #f2fbf8;
+
+        .login-title{
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .switch-sign-method{
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    }
+
+    .login-left,
+    .login-right{
+        padding: 1.2rem 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}

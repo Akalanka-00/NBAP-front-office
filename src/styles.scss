@@ -45,124 +45,18 @@ body {
     
   }
   
-  :root {
-    --color-primary:#3629b7;
-    --color-primary-variant:#195bfe;
-  
-    --color-secondary:#e05bf4 ;
-    --color-secondary-variant:#b84bc9 ;
-  
-    --text-primary: #000;
-    --text-primary-variant: #c1c7d0;
-    --color-text-gray:#4b4a4ab6;
-    --text-secondary: #fff;
-  
-    --color-bg-primary:#fff;
-    --color-bg-primary-variant:#7380ec;
-    --color-bg-gradient: linear-gradient(90deg,#005bff,#be0dd9 98.96%);
-  
-    --color-error: #bf2600;
-    --color-warning: #ff8b00;
-    --color-success: #00875a;
-  
-   
-  
-      
-  
-  }
-  
-  .nba-btn-primary {
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(120,49,196,.75);
-    background-image: linear-gradient(72.71deg,#b84bc9 3.31%,#0d3491 57.44%,#00a8b4 108.12%);
-    background-size: 300% 100%;
-    color: #fff;
-    cursor: pointer;
-    font-size: inherit;
-    outline: none;
-    padding: 7px 30px;
-    transition: all .2s ease-in;
-    transition: all .4s ease-in-out;
-  }
-  
-  .nba-btn-primary:hover{
-    color: var(--color-bg-primary);
-    background-image: linear-gradient(72.71deg,#0d3491 3.31%,#b84bc9 57.44%,#00a8b4 108.12%);
-  }
-  
-  .nba-btn-primary:active{
-    background-image: linear-gradient(72.71deg,#0d3491 3.31%,#b84bc9);
-    transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .nba-btn-secondary{
-    @extend .nba-btn-primary;
-    box-shadow: 0 4px 15px 0 rgba(120,49,196,.75);
-    background-image:linear-gradient(71.72deg,#0d3491 3.31%,#00a8b4 57.44%,#b84bc9 108.12%);
-  }
-  
-  .nba-btn-secondary:hover{
-    @extend .nba-btn-primary;
-    background-image: linear-gradient(71.72deg,#00a8b4 3.31%,#0d3491 57.44%,#b84bc9 108.12%);
-  
-  }
-  
-  .nba-btn-secondary:active{
-    background-image: linear-gradient(72.71deg,#172B4D 3.31%,#0d3491);
-    transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .nba-btn-success{
-    @extend .nba-btn-primary;
-    background-image: none;
-    background-color: var(--color-success);
-    box-shadow: 0 4px 8px 0 rgba(0, 102, 68, 0.7);
-  
-  }
-  
-  .nba-btn-success:hover{
-    @extend .nba-btn-primary;
-    background-image: none;
-    background-color: #1aa66b;
-    box-shadow: 0 4px 8px 0 rgba(0, 102, 68, 0.7);
-  
-  }
-  
-  .nba-btn-success:active{
-    @extend .nba-btn-primary;
-    background-image: none;
-    background-color: rgba(0, 102, 68, 1);
-    box-shadow: 0 4px 8px 0 rgba(0, 102, 68, 0.7);
-  
-  }
-  
-  
-  
-  .nba-btn-error{
-    @extend .nba-btn-primary;
-    background-image: none;
-    background-color: var(--color-error);
-    box-shadow: 0 4px 8px 0 rgba(191, 38, 0, 0.7);
-  
-  }
-  
-  .nba-btn-error:hover{
-    @extend .nba-btn-primary;
-    background-image: none;
-    background-color: #DE350B;
-    box-shadow: 0 4px 8px 0 rgba(191, 38, 0, 0.7);
-  
-  }
-  
-  .nba-btn-error:active{
-    @extend .nba-btn-primary;
-    background-image: none;
-    background-color: #811c02;
-    box-shadow: 0 4px 8px 0 rgba(191, 38, 0, 0.7);
-  
+  :root{
+    --color-primary: #77a6f7;
+    --color-secondary: #00887A;
+
+    --color-primary-variant: #D3E3FC;
+    --color-secondary-variant: #FFCCBC;
+
+    --text-primary: #000000;
+    --text-secondary: #FFFFFF;
+    --color-text-gray: #6C757D;
+    
+    --bg-primary: #FFFFFF;
   }
   
   .border-title{
