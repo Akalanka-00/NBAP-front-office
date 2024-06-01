@@ -17,7 +17,8 @@ export enum UserStatus {
     deleted= 'deleted'
 }
 
-export enum UserLevel {
-    standard= 'standard',
-    premium= 'premium',
+export enum UserRole {
+    STANDARD= 'standard',
+    PREMIUM= 'premium',
+    ADMIN= 'admin'
 }
