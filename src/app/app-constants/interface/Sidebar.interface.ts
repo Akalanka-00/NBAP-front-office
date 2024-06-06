@@ -4,7 +4,7 @@ import { UserRole } from "../enum/user.enum";
 export interface SidebarItem {
 
     LEVEL: UserRole;
-    ROUTE: string;
+    URL: string;
     TITLE: string;
     ICON: string;
     STATUS: boolean;

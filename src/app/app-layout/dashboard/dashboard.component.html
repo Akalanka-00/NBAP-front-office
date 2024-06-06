@@ -27,6 +27,7 @@
               <div
                 class="{{ item.STATUS ? 'active-menu-item' : 'menu-item' }}"
                 *ngIf="item.SECTION === section"
+                (click)="onNavigate(item.URL)"
               >
                 <div class="menu-link">
                   <i class="{{ item.ICON }} menu-icon"></i>
@@ -43,6 +44,14 @@
                   "
                   class="bi bi-lock lock-icon"
                 ></i>
+
+                <i *ngIf="
+                (
+                  userRole === 'premium' ||
+                  (userRole === 'standard' && item.LEVEL !== 'premium') ||
+                  userRole === 'admin'
+                ) && item.CHILDREN.length>0
+              " class="bi bi-chevron-right more-details-icon"></i>
               </div>
             </div>
           </div>

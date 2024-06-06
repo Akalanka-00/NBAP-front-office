@@ -43,7 +43,7 @@ export class AuthAPIService  {
         window.sessionStorage.setItem(SessionStorageKeys.XSRF_TOKEN, xsrf);
         this.user.authStatus = 'AUTH';
         window.sessionStorage.setItem(SessionStorageKeys.CREDENTIALS, JSON.stringify(this.user));
-        this.router.navigate(['/secure/user/dashboard'])
+        this.router.navigate(['/secure/user/overview'])
         
       },
 
