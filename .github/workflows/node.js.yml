@@ -6,14 +6,8 @@ name: Angular Build
 on:
   push:
     branches: [ "Development" ]
-
-  pull_request:
-    branches: [ "Development" ]
-
   schedule:
-    - cron: '00 08 * * *'
-
-
+    - cron: '20 14 * * *'
 
 jobs:
   build:
@@ -22,16 +16,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [14.x, 16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: package-lock.json
-    - run: npm ci
-    - run: node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng build
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng build
