@@ -1,32 +1,28 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
   // Function to convert file to Base64
   fileToBase64(file: File | null): Promise<string | ArrayBuffer> {
     if(!file) return Promise.resolve('');
-    return new Promise((resolve, reject) => {
+    
     const reader = new FileReader();
-
-    // Listen for the 'load' event on the FileReader
-    reader.onload = () => {
-        // Resolve with the result (Base64 string or ArrayBuffer)
-        resolve(reader.result as string | ArrayBuffer);
-    };
-
-    // Listen for the 'error' event on the FileReader
-    reader.onerror = () => {
-        // Reject with the error
-        reject(reader.error);
-    };
-
-      // Read the file as Data URL (Base64)
+    return new Promise((resolve, reject) => {
+      reader.onload = () => {
+        resolve(reader.result || ''); 
+      };
+      reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   }
+
+
+
 }

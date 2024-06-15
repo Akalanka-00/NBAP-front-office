@@ -1,16 +1,11 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserModel, UserSignInModel, UserSignUpModel } from '../../../app-constants/interface/user.interface';
-import { UserStatus, UserTypes } from '../../../app-constants/enum/user.enum';
 import { AuthAPIService } from '../../../app-services/api-services/auth-api.service';
-import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.directive';
 import { HotToastService } from '@ngneat/hot-toast';
-import { getCookie } from 'typescript-cookie';
-import { SessionStorageKeys } from '../../../app-constants/enum/storageKeys.enum';
-import { HTTP_INTERCEPTORS, HttpClientXsrfModule } from '@angular/common/http';
-import { XhrInterceptor } from '../../../app-utils/interceptors/app-request.interceptors';
+import { UserModel, UserSignInModel } from '../../../app-constants/interface/user.interface';
+import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.directive';
 
 @Component({
   selector: 'app-app-signin',
@@ -22,7 +17,6 @@ import { XhrInterceptor } from '../../../app-utils/interceptors/app-request.inte
 })
 export class AppSigninComponent extends BaseWidgetDirective{
 
- 
   public signInForm = new FormGroup({
    
     email: new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]),

@@ -19,21 +19,15 @@ export class XhrInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
 
-        console.log('intercepted request ... ');
         let httpHeaders = new HttpHeaders();
         if(sessionStorage.getItem(SessionStorageKeys.CREDENTIALS)){
           this.user = JSON.parse(sessionStorage.getItem(SessionStorageKeys.CREDENTIALS)!);
         }
 
-        console.log(this.user);
         const expDate = this.getExpDate(this.user);
-        console.log('condition')
-        console.log((this.user && this.user.password !== undefined && this.user.email != undefined && this.user.email !== null && this.user.password !== null));
-
         if((this.user && this.user.password !== undefined && this.user.email != undefined && this.user.email !== null && this.user.password !== null)){
             httpHeaders = httpHeaders.append('Authorization', 'Basic ' + window.btoa(this.user.email + ':' + this.user.password));
             httpHeaders = httpHeaders.append('role',window.btoa((this.user.role? this.user.role.role: 'standard') + ':' + expDate));
-            console.log((this.user.role? this.user.role.role: 'standard') + ':' + expDate);
         }else{
           let auth = sessionStorage.getItem(SessionStorageKeys.AUTHORIZATION);
           if(auth){
@@ -51,13 +45,11 @@ export class XhrInterceptor implements HttpInterceptor {
           headers: httpHeaders
         });
 
-        console.log(expDate);
-        console.log(httpHeaders);
+        console.log(req)
+
       return next.handle(xhr).pipe(
         
         catchError((error: HttpErrorResponse): Observable<any> => {
-            console.log(error.status);
-
 
             if(error.status == 400){
                 window.sessionStorage.clear();
@@ -69,14 +61,20 @@ export class XhrInterceptor implements HttpInterceptor {
                 return throwError(error);
             }
 
+            if(error.status == 403){
+                this.router.navigate(['unauthorized']);
+                return throwError(error);
+                
+            }
+
             if(error.status != 401){
               this.toast.error(error.error.error);
             }else{
-                window.sessionStorage.clear();
-                window.localStorage.clear();
-                removeCookie(SessionStorageKeys.XSRF_TOKEN);
+                // window.sessionStorage.clear();
+                // window.localStorage.clear();
+                // removeCookie(SessionStorageKeys.XSRF_TOKEN);
               
-                this.router.navigate(['login']);
+                // this.router.navigate(['login']);
               this.toast.error('Invalid user credentials, Please try again latter.');
             } 
           
@@ -105,9 +103,8 @@ export class XhrInterceptor implements HttpInterceptor {
       }  
 
       private getExpDate(user: UserModel): string{
-        if(user.role && user.role.role == 'premium' && user.roleExpDate!== null){
+        if(user && user.role && user.role.role == 'premium' && user.roleExpDate!== null){
           const date = new Date(user.roleExpDate);
-          console.log(date, new Date())
           return date.valueOf().toString();
         }
         return 'none';

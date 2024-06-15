@@ -1,0 +1,102 @@
+<div class="dashboard-container h-100">
+  
+  <div #sidebar class="sidebar-container {{ sidebarClass }}">
+    <div class="d-flex flex-column align-items-start">
+      <a  href="#" class="logo-container pb-4">
+        <img src="https://placehold.co/40x40" class="logo-img" alt="" />
+        <div class="d-flex flex-column align-items-start">
+          <span class="logo-title">Nexus Bit</span>
+          <span class="logo-subtitle">API Portal</span>
+        </div>
+      </a>
+
+      <div  class="menu-item-container">
+        <div class="section-container" *ngFor="let section of sections">
+          <div
+            class="section-header"
+            *ngIf="getItemsBySection(section).length > 0 && isSidebarOpen"
+          >
+            {{ section }}
+          </div>
+          <div class="menu-items" *ngIf="getItemsBySection(section).length > 0">
+            <div
+              *ngFor="let item of getItemsBySection(section)"
+              class="w-100"
+              (click)="changeActiveItem(item)"
+            >
+              <div
+                class="{{ item.STATUS ? 'active-menu-item' : 'menu-item' }}"
+                *ngIf="item.SECTION === section"
+                (click)="onNavigate(item.URL)"
+              >
+                <div class="menu-link">
+                  <i class="{{ item.ICON }} menu-icon"></i>
+                  <span class="menu-title" >{{ item.TITLE }}</span>
+                </div>
+
+                <i
+                  *ngIf="
+                    !(
+                      userRole === 'premium' ||
+                      (userRole === 'standard' && item.LEVEL !== 'premium') ||
+                      userRole === 'admin'
+                    )
+                  "
+                  class="bi bi-lock lock-icon"
+                ></i>
+
+                <i *ngIf="
+                (
+                  userRole === 'premium' ||
+                  (userRole === 'standard' && item.LEVEL !== 'premium') ||
+                  userRole === 'admin'
+                ) && item.CHILDREN.length>0
+              " class="bi bi-chevron-right more-details-icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <div class="navbar">
+        <div class="navbar-header">
+          <i class="bi bi-list menu-icon" (click)="toggleSidebar()"></i> 
+          <div class="navbar-title"><span class="dashboard-title">Dashboard/ </span> <span class="active-title">{{ activeItem.TITLE}}</span></div>
+          <i
+                  *ngIf="
+                    !(
+                      userRole === 'premium' ||
+                      (userRole === 'standard' && activeItem.LEVEL !== 'premium') ||
+                      userRole === 'admin'
+                    )
+                  "
+                  class="bi bi-lock lock-icon"
+                ></i>
+        </div>  
+        <div class="navbar-tail">
+          <i class="bi bi-bell"></i>
+          <div class="user-options" ngbDropdown>
+            <img 
+          src="{{ profile }}" class="user-img" alt="" tabindex="0" ngbDropdownToggle id="user-options" role="button"/>
+
+          <div ngbDropdownMenu aria-labelledby="user-options" class="dropdown-menu">
+            <div class="dropdown-item" ngbDropdownItem><i class="bi bi-person"></i> <span>Profile</span></div>
+            <div class="dropdown-item" ngbDropdownItem><i class="bi bi-gear"></i><span>Settings</span></div>
+            <div class="dropdown-item" ngbDropdownItem><i class="bi bi-box-arrow-left"></i> <span>Logout</span></div>
+          </div>
+
+          </div>   
+
+        </div>
+    </div>
+
+    <div class="dashboard-body p-4" id="dashboard-body">
+      <router-outlet></router-outlet>
+      
+    </div>
+  </div>
+</div>
+

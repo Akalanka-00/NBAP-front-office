@@ -1,33 +1,51 @@
-<div class="auth-container">
-    <div class="auth-content row">
-       
-        <div class="form-content">
-            <div class="h3">Nexus Bit API Portal</div>
-            <div class="sub-title">Register here</div>
-            
-            <form class="mx-4 p-3 h-100" [formGroup]="signInForm" (submit)="onSubmit($event)">
+<div class="login-container d-flex align-items-center justify-content-center h-100">
+    <div class="container ">
+        <div class="row d-flex flex-row justify-content-center">
+            <div class="col-md-3 login-left">
+                <div class="d-flex flex-row align-items-center justify-content-start gap-3">
+                    <img src="../../../../favicon.ico" width="50" alt="" class="">
+                    <div class="app-title">Nexus Bit <span>API Portal</span></div>
+                </div>
+
+                <div class="d-flex flex-column align-items-center justify-content-center gap-3">
+                    <div class="login-title">Welcome back</div>
+                    <div class="login-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        Quae cumque consequuntur praesentium earum libero!</div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center justify-content-center gap-3">
+                    
+                </div>
+
+            </div>
+            <div class="col-md-5 login-right">
+                <div class="d-flex flex-column align-items-center justify-content-center gap-3">
+                    <div class="login-title">Login Account</div>
+                </div>
+
+                <form class="mx-4 p-3 h-100" [formGroup]="signInForm" (submit)="onSubmit($event)">
                
-               <div class="d-flex flex-column gap-2 mt-2 mx-4">
-                <div class="form-group  d-flex flex-column align-items-start justify-content-center gap-1 mt-3">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email Address">
-                  </div>
-
-                    <div class="form-group d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
-                        <label for="psw">Password</label>
-                        <input type="password" class="form-control" formControlName="password" id="psw" placeholder="Password">
-                      </div>
-
-                    <button class="nba-btn-primary mt-2 w-100" type="submit" >Sign In</button>
-                   
-                    <div class="d-flex flex-row align-items-center justify-content-start gap-2">
-                        <small class="">Already have an account?</small>
-                        <small class="switch-sign-method" (click)="handleLoginClick()">Sign Up</small>
+                    <div class="d-flex flex-column gap-2 mt-2 mx-4">
+                     <div class="form-group  d-flex flex-column align-items-start justify-content-center gap-1 mt-3">
+                         <label for="email">Email</label>
+                         <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email Address">
+                       </div>
+     
+                         <div class="form-group d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                             <label for="psw">Password</label>
+                             <input type="password" class="form-control" formControlName="password" id="psw" placeholder="Password">
+                           </div>
+     
+                         <button class="btn btn-primary mt-2 w-100" type="submit" >Sign In</button>
+                        
+                         <div class="d-flex flex-row align-items-center justify-content-start gap-2">
+                             <small class="">Already have an account?</small>
+                             <small class="switch-sign-method" (click)="handleLoginClick()">Sign Up</small>
+                         </div>
                     </div>
-               </div>
-    
-            </form>        
+         
+                 </form>        
+            </div>
         </div>
-        
     </div>
 </div>

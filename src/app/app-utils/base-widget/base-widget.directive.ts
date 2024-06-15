@@ -28,6 +28,10 @@ export class BaseWidgetDirective implements OnChanges, OnInit, OnDestroy, AfterV
 		// code here
 	}
 
+  public delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 
   public ngOnChanges(changes: SimpleChanges): void {
 		this.onChanges(changes);

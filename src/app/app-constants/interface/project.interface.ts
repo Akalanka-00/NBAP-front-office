@@ -5,10 +5,7 @@ export interface ReferenceUrl{
   
   }
 
-
-
-
-export interface ProjectFormModel{
+  export interface ProjectFormModel{
     name: string;
     banner: string;
     startDate: Date;
@@ -19,4 +16,24 @@ export interface ProjectFormModel{
     isPrivate: boolean;
     mediaFiles: string[];
     referenceUrls: ReferenceUrl[];
+}
+
+export interface MediaModel{
+    id: string;
+    url: string;
+    date: Date;
+}
+
+export interface ProjectResponseModel{
+  id: string;
+  name: string;
+  banner: MediaModel;
+  startDate: Date;
+  endDate: Date;
+  description: string;
+  ongoing: boolean;
+  canRate: boolean;
+  private: boolean;
+  mediaFiles: MediaModel[];
+  referenceUrls: ReferenceUrl[];
 }
