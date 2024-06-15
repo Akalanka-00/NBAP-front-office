@@ -15,7 +15,7 @@ const SidebarItems: SidebarItem[] = [
 
   {
     LEVEL: UserRole.STANDARD,
-    URL: 'stats',
+    URL: 'statistics',
     TITLE: 'Statistics',
     ICON: 'bi bi-graph-up',
     CHILDREN: [],

@@ -4,6 +4,9 @@ import { AdminOverviewComponent } from '../app-widgets/dashboard-widgets/admin/a
 import { UserProjectOverviewComponent } from '../app-widgets/dashboard-widgets/user/projects/user-project-overview/user-project-overview.component';
 import { UserQualificationsComponent } from '../app-widgets/dashboard-widgets/user/qualifications/user-qualifications/user-qualifications.component';
 import { UserSkillsComponent } from '../app-widgets/dashboard-widgets/user/skills/user-skills/user-skills.component';
+import {
+  UserStatisticsComponent
+} from "../app-widgets/dashboard-widgets/user/statistics/user-statistics/user-statistics.component";
 
 
 export const dashboardroutes: Routes = [
@@ -11,10 +14,11 @@ export const dashboardroutes: Routes = [
      {path: 'user/projects', component: UserProjectOverviewComponent },
      {path: 'user/qualifications', component: UserQualificationsComponent },
      {path: 'user/skills', component: UserSkillsComponent },
+     {path: 'user/statistics', component: UserStatisticsComponent },
     // {path:'projects/new', component: ProjectCreationContainerComponent},
     // {path:'projects/view/:id', component: ProjectViewContainerComponent},
     // {path:'projects/edit/:id', component: ProjectCreationContainerComponent},
-    
+
     // {path:'gallery', component: GalleryContainerComponent},
 
     {path: 'admin/overview', component: AdminOverviewComponent},
