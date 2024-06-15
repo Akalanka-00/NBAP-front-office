@@ -35,7 +35,7 @@
     "highcharts-angular": "^4.0.0",
     "ngx-editor": "^17.0.1",
     "rxjs": "~7.8.0",
-    "sweetalert2": "^11.10.7",
+    "sweetalert2": "^11.11.1",
     "tslib": "^2.3.0",
     "typescript-cookie": "^1.0.6",
     "zone.js": "~0.14.3"
