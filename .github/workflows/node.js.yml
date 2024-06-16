@@ -5,24 +5,30 @@ name: Angular Build
 
 on:
   push:
-    branches: ["Development", "master"]
+    branches: [ "Development", "master" ]
+
+  pull_request:
+    branches: [ "Development", "master" ]
 
   schedule:
     - cron: '00 08 * * *'
 
 jobs:
-  Angular_Build:
+  build:
+
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install dependencies and build
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
-
         with:
-          node-version: 20.x
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - run: npm ci
