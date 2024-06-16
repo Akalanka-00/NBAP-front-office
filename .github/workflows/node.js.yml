@@ -4,9 +4,6 @@
 name: Angular Build
 
 on:
-  push:
-    branches: [ "Development", "master" ]
-
   pull_request:
     branches: [ "Development", "master" ]
 
