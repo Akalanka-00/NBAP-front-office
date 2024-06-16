@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { UserModel, UserSignInModel, UserSignUpModel } from '../../app-constants/interface/user.interface';
+import { UserModel, UserSignInModel, UserSignUpModel } from '../../app-models/user.model';
 import { BaseApiService } from './base-api.service';
 import { getCookie } from 'typescript-cookie';
-import { LocalStorageKeys, SessionStorageKeys } from '../../app-constants/enum/storageKeys.enum';
+import { SessionStorageKeys } from '../../app-constants/enum/storageKeys.enum';
 import { ApiEndpoints } from '../../app-constants/enum/api.enum';
 import { Router } from '@angular/router';
 
@@ -39,12 +39,12 @@ export class AuthAPIService  {
         window.sessionStorage.setItem(SessionStorageKeys.AUTHORIZATION, res.headers.get(SessionStorageKeys.AUTHORIZATION)!);
         this.user = <any>res.body;
         const xsrf = String(getCookie(SessionStorageKeys.XSRF_TOKEN));
-       
+
         window.sessionStorage.setItem(SessionStorageKeys.XSRF_TOKEN, xsrf);
         this.user.authStatus = 'AUTH';
         window.sessionStorage.setItem(SessionStorageKeys.CREDENTIALS, JSON.stringify(this.user));
         this.router.navigate(['/secure/user/overview'])
-        
+
       },
 
     );

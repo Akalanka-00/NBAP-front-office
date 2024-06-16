@@ -2,18 +2,18 @@
   display: flex;
   height: 100%;
   width: 100%;
-  overflow: hidden; 
+  overflow: hidden;
 
   .sidebar-container {
     top: 0;
     left: 0;
     height: 100%;
     background-color: #071f37;
-    padding-bottom: 1rem;
     overflow-y: auto;
     white-space: nowrap;
     transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
     padding: 1.5rem;
+    z-index: 999;
 
     &::-webkit-scrollbar {
       width: 0;
@@ -141,12 +141,12 @@
   }
 
   .hidden-sidebar{
-    width: 0rem;
+    width: 0;
     padding: 0;
   }
 
   .active-sidebar{
-    width: 18rem;  
+    width: 18rem;
     padding: 1.5rem;
 
   }
@@ -173,6 +173,7 @@
       padding: 0 1rem;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       overflow: hidden;
+      z-index: 999;
 
       .navbar-header {
         display: flex;
@@ -220,7 +221,7 @@
 
         .user-options {
           .dropdown-menu {
-            right: auto; 
+            right: auto;
             left: -9rem;
              top: 2em;
 
@@ -239,7 +240,7 @@
                 border-bottom: none;
               }
 
-           
+
               .dropdown-icon {
                 font-size: 1rem;
               }
