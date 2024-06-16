@@ -5,9 +5,7 @@ name: Angular Build
 
 on:
   push:
-    branches:
-      -Development
-      -master
+    branches: ["Development", "master"]
 
   schedule:
     - cron: '00 08 * * *'
