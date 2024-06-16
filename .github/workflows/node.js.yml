@@ -8,7 +8,7 @@ on:
     branches: [ "Development", "master" ]
 
   schedule:
-    - cron: '30 06 * * *'
+    - cron: '30 02 * * *'
 
 jobs:
   Angular_Build:
