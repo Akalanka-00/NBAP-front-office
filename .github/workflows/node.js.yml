@@ -16,15 +16,14 @@ jobs:
   Angular_Build:
     runs-on: ubuntu-latest
 
-    env:
-      NODE_OPTIONS: --max-old-space-size=8192
-    if: github.ref == 'refs/heads/Development' || github.ref == 'refs/heads/master'
+
     steps:
       - name: Checkout code
       - uses: actions/checkout@v4
 
       - name: Install dependencies and build
         uses: actions/setup-node@v3
+
         with:
           node-version: 20.x
           cache: 'npm'
