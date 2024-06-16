@@ -32,4 +32,4 @@ jobs:
       - run: node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng build
       - run: |
           echo "Current time and timezone in Sri Lanka:"
-          TZ='Asia/Colombo' date
+          date
