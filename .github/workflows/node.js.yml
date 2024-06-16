@@ -4,17 +4,14 @@
 name: Angular Build
 
 on:
-  push:
-    branches: [ "Development", "master" ]
-
   pull_request:
     branches: [ "Development", "master" ]
 
   schedule:
-    - cron: '00 08 * * *'
+    - cron: '30 06 * * *'
 
 jobs:
-  build:
+  Angular_Build:
 
     runs-on: ubuntu-latest
 
