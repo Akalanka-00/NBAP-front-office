@@ -1,17 +1,16 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, catchError, tap, throwError } from "rxjs";
-import { LocalStorageKeys, SessionStorageKeys } from "../../app-constants/enum/storageKeys.enum";
-import { UserModel } from "../../app-constants/interface/user.interface";
-import Swal from "sweetalert2";
+import { Observable, catchError,  throwError } from "rxjs";
+import {  SessionStorageKeys } from "../../app-constants/enum/storageKeys.enum";
+import { UserModel } from "../../app-models/user.model";
 import { HotToastService } from "@ngneat/hot-toast";
 import { removeCookie } from 'typescript-cookie';
 
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
-    
+
     user!: UserModel;
      constructor(private router: Router, private toast: HotToastService,) {}
 
@@ -25,7 +24,7 @@ export class XhrInterceptor implements HttpInterceptor {
         }
 
         const expDate = this.getExpDate(this.user);
-        if((this.user && this.user.password !== undefined && this.user.email != undefined && this.user.email !== null && this.user.password !== null)){
+        if((this.user && this.user.password !== undefined && this.user.email != undefined && this.user.password !== null)){
             httpHeaders = httpHeaders.append('Authorization', 'Basic ' + window.btoa(this.user.email + ':' + this.user.password));
             httpHeaders = httpHeaders.append('role',window.btoa((this.user.role? this.user.role.role: 'standard') + ':' + expDate));
         }else{
@@ -35,10 +34,10 @@ export class XhrInterceptor implements HttpInterceptor {
           }
         }
 
-        
+
         let xsrf = sessionStorage.getItem(SessionStorageKeys.XSRF_TOKEN);
         if(xsrf){
-          httpHeaders = httpHeaders.append(SessionStorageKeys.XSRF_TOKEN, xsrf);  
+          httpHeaders = httpHeaders.append(SessionStorageKeys.XSRF_TOKEN, xsrf);
         }
         httpHeaders = httpHeaders.append('X-Requested-With', 'XMLHttpRequest');
         const xhr = req.clone({
@@ -48,14 +47,14 @@ export class XhrInterceptor implements HttpInterceptor {
         console.log(req)
 
       return next.handle(xhr).pipe(
-        
+
         catchError((error: HttpErrorResponse): Observable<any> => {
 
             if(error.status == 400){
                 window.sessionStorage.clear();
                 window.localStorage.clear();
                 removeCookie(SessionStorageKeys.XSRF_TOKEN);
-              
+
                 this.router.navigate(['login']);
                 this.toast.error('Session expired, Please login again');
                 return throwError(error);
@@ -64,7 +63,7 @@ export class XhrInterceptor implements HttpInterceptor {
             if(error.status == 403){
                 this.router.navigate(['unauthorized']);
                 return throwError(error);
-                
+
             }
 
             if(error.status != 401){
@@ -73,11 +72,11 @@ export class XhrInterceptor implements HttpInterceptor {
                 // window.sessionStorage.clear();
                 // window.localStorage.clear();
                 // removeCookie(SessionStorageKeys.XSRF_TOKEN);
-              
+
                 // this.router.navigate(['login']);
               this.toast.error('Invalid user credentials, Please try again latter.');
-            } 
-          
+            }
+
             return throwError(error);
             }),
 
@@ -85,7 +84,7 @@ export class XhrInterceptor implements HttpInterceptor {
         //   (err: any) => {
 
         //     console.log(err)
-            
+
         //     Swal.fire({
         //         icon: "error",
         //         title: 'Error Occured',
@@ -100,7 +99,7 @@ export class XhrInterceptor implements HttpInterceptor {
         //     }
         //   }),
         );
-      }  
+      }
 
       private getExpDate(user: UserModel): string{
         if(user && user.role && user.role.role == 'premium' && user.roleExpDate!== null){
@@ -111,4 +110,4 @@ export class XhrInterceptor implements HttpInterceptor {
     }
 
   }
-     
+

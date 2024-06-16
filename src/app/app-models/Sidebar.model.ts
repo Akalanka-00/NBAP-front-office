@@ -1,5 +1,5 @@
-import { SidebarSections } from "../../model/SidebarItem";
-import { UserRole } from "../enum/user.enum";
+import { SidebarSections } from "../app-constants/enum/SidebarItem.enum";
+import { UserRole } from "../app-constants/enum/user.enum";
 
 export interface SidebarItem {
 

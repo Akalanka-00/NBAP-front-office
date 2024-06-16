@@ -1,6 +1,6 @@
-import { SidebarSections } from '../../model/SidebarItem';
+import { SidebarSections } from '../enum/SidebarItem.enum';
 import { UserRole } from '../enum/user.enum';
-import { SidebarItem } from '../interface/Sidebar.interface';
+import { SidebarItem } from '../../app-models/Sidebar.model';
 
 const SidebarItems: SidebarItem[] = [
   {

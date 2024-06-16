@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { AuthAPIService } from '../../../app-services/api-services/auth-api.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { UserModel, UserSignInModel } from '../../../app-constants/interface/user.interface';
+import { UserModel, UserSignInModel } from '../../../app-models/user.model';
 import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.directive';
 
 @Component({
@@ -18,7 +18,7 @@ import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.
 export class AppSigninComponent extends BaseWidgetDirective{
 
   public signInForm = new FormGroup({
-   
+
     email: new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]),
     password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()_+}{":;\'?/>.<,])(?!.*\\s).{8,16}$')]),
   });

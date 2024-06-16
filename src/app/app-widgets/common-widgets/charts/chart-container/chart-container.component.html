@@ -1,1 +1,8 @@
-<p>chart-container works!</p>
+
+
+<ng-container>
+  <app-bar-chart *ngIf="chartType === ChartType.BAR_CHART" [widgetId]="widgetId"></app-bar-chart>
+  <app-pie-chart *ngIf="chartType === ChartType.PIE_CHART" [widgetId]="widgetId"></app-pie-chart>
+  <app-donut-chart *ngIf="chartType === ChartType.DONUT_CHART" [widgetId]="widgetId"></app-donut-chart>
+
+</ng-container>

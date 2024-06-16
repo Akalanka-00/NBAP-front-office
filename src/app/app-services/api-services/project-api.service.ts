@@ -3,7 +3,7 @@ import { BaseApiService } from "./base-api.service";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { ApiEndpoints } from "../../app-constants/enum/api.enum";
-import { ProjectFormModel } from "../../app-constants/interface/project.interface";
+import { ProjectFormModel } from "../../app-models/project.model";
 import { HotToastService } from "@ngneat/hot-toast";
 
 
