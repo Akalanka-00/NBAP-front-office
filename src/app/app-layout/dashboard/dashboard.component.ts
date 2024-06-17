@@ -1,11 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { BaseWidgetDirective } from '../../app-utils/base-widget/base-widget.directive';
 import { HotToastService } from '@ngneat/hot-toast';
 import { getSidebarItems } from '../../app-constants/constant/SidebarItems';
 import { CommonModule } from '@angular/common';
-import { SidebarItem } from '../../app-constants/interface/Sidebar.interface';
+import { SidebarItem } from '../../app-models/Sidebar.model';
 import { UserRole } from '../../app-constants/enum/user.enum';
-import { SidebarSections } from '../../model/SidebarItem';
+import { SidebarSections } from '../../app-constants/enum/SidebarItem.enum';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router, RouterOutlet } from '@angular/router';
 @Component({
@@ -26,8 +26,6 @@ export class DashboardComponent extends BaseWidgetDirective {
     'https://static.vecteezy.com/system/resources/previews/027/312/306/large_2x/portrait-of-a-dj-with-headphone-isolated-essential-workers-avatar-icons-characters-for-social-media-and-networking-user-profile-website-and-app-3d-render-illustration-png.png';
   public isSidebarOpen: boolean = true;
   public sidebarClass: string = 'active-sidebar p-4';
-
-  private config: any;
 
   private currentUrl = this.router.url;
 
@@ -52,11 +50,7 @@ export class DashboardComponent extends BaseWidgetDirective {
   public changeActiveItem(menuItem: SidebarItem): void {
     const index = this.menuItems.indexOf(menuItem);
     this.menuItems.forEach((item, i) => {
-      if (i === index) {
-        item.STATUS = true;
-      } else {
-        item.STATUS = false;
-      }
+      item.STATUS = i === index;
     });
     this.activeItem = menuItem;
   }

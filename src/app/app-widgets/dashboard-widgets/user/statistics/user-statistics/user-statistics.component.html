@@ -1,1 +1,4 @@
-<p>user-statistics works!</p>
+<ng-container *ngFor="let chart of chartTypeList; let i = index;">
+  <app-chart-container [chartType]="chart" [widgetId]="i"></app-chart-container>
+
+</ng-container>
