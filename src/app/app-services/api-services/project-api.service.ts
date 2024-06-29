@@ -34,7 +34,7 @@ import {BaseWidgetDirective} from "../../app-utils/base-widget/base-widget.direc
   public  newProject(data: ProjectFormModel) {
 
     return  this.secureApiService.secureRequest(MessageGroup.PROJECT, ProjectMessageType.CREATE, data)
-      .then((res)=>{
+      .then(()=>{
         this.navigate("secure/user/projects").then(()=>{
           this.toastSuccess("Project created successfully")
 
