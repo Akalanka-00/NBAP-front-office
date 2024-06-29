@@ -1,12 +1,245 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
+import {ProjectFormModel, ProjectResponseModel, ReferenceUrl} from "../../../../../app-models/project.model";
+import {MatStepperModule} from "@angular/material/stepper";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {HttpClient} from "@angular/common/http";
+import {ProjectAPIService} from "../../../../../app-services/api-services/project-api.service";
+import {FileService} from "../../../../../app-utils/utils/file-service";
+import {ActivatedRoute} from "@angular/router";
+import {BaseWidgetDirective} from "../../../../../app-utils/base-widget/base-widget.directive";
+import Swal from "sweetalert2";
+
+export enum MODE {
+  EDIT = 'edit',
+  CREATE = 'create'
+}
 
 @Component({
   selector: 'app-user-project-create',
   standalone: true,
-  imports: [],
+  imports: [MatStepperModule, FormsModule, ReactiveFormsModule, CommonModule, MatFormFieldModule],
   templateUrl: './user-project-create.component.html',
   styleUrl: './user-project-create.component.scss'
 })
-export class UserProjectCreateComponent {
+export class UserProjectCreateComponent extends BaseWidgetDirective{
+
+  public detailsForm = new FormGroup({
+    projectName: new FormControl('', [Validators.required]),
+    projectStartDate: new FormControl(new Date(), [Validators.required]),
+    projectEndDate: new FormControl(new Date(), [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    isOngoing: new FormControl( false, [Validators.required]),
+    canRate: new FormControl( false, [Validators.required]),
+    isPrivate: new FormControl( false, [Validators.required]),
+  });
+  public imageLocalUrlList: string[] = [];
+  public bannerLocalUrl: string = '';
+  public project!: ProjectResponseModel;
+  public referenceUrlForm = new FormGroup({
+    hostname: new FormControl('', [Validators.required]),
+    url: new FormControl('', [Validators.required]),
+  });
+  public maxDate: string ;
+
+  isLinear = false;
+
+
+  private referenceUrls: ReferenceUrl[] = [];
+  private imageList: File[] = [];
+  private banner: File | null = null;
+
+  private maxFiles = 5;
+  private maxFileSize = 8*1024*1024;
+  private projectId: string = '';
+  private projectMode: MODE = MODE.CREATE;
+
+
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private apiService: ProjectAPIService, private fileService: FileService, private route: ActivatedRoute) {
+    super();
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2); // January is 0
+    const day = ('0' + today.getDate()).slice(-2);
+    this.maxDate = `${year}-${month}-${day}`;
+
+  }
+
+  public override ngOnInit(): void {
+    this.projectId = this.route.snapshot.params['id'];
+    if(this.projectId) this.projectMode = MODE.EDIT;
+    if(this.projectMode !== MODE.CREATE)
+      this.apiService.getProject(this.projectId).subscribe(
+        response =>{
+          if(response.status !=200){
+            this.toastError(response.body);
+            throw new Error(String(response.body));
+          }
+          this.project = response.body;
+          this.project.startDate = new Date(this.project.startDate);
+          this.project.endDate = new Date(this.project.endDate);
+          this.project.referenceUrls.forEach(url => {
+            url.icon = this.getIcon(url.url);
+          });
+
+          this.referenceUrls = this.project.referenceUrls;
+          this.imageLocalUrlList = this.project.mediaFiles.map(file => file.url);
+          this.bannerLocalUrl = this.project.banner.url;
+
+          this.detailsForm.patchValue({
+            projectName: this.project.name,
+            projectStartDate: this.project.startDate,
+            projectEndDate: this.project.endDate,
+            description: this.project.description,
+            isOngoing: this.project.ongoing,
+            canRate: this.project.canRate,
+            isPrivate: this.project.private
+          });
+          this.cdr.detectChanges();
+
+        }
+      );
+  }
+
+  public async onSubmit(event: Event){
+    event.preventDefault();
+
+    const bannerArrayBuffer = await this.fileService.fileToBase64(this.banner);
+    const banner = typeof bannerArrayBuffer === 'string' ? bannerArrayBuffer : new TextDecoder().decode(bannerArrayBuffer);
+
+    const projectData: ProjectFormModel = {
+      name: this.detailsForm.value.projectName ?? '',
+      banner: banner ?? '',
+      startDate: this.detailsForm.value.projectStartDate ?? new Date(),
+      endDate: this.detailsForm.value.projectEndDate ?? new Date(),
+      description: this.detailsForm.value.description ?? '',
+      isOngoing: this.detailsForm.value.isOngoing ?? false,
+      canRate: this.detailsForm.value.canRate ?? false,
+      isPrivate: this.detailsForm.value.isPrivate ?? false,
+      mediaFiles: await Promise.all(this.imageList.map(async file => {
+        const base64 = await this.fileService.fileToBase64(file);
+        return typeof base64 === 'string' ? base64 : new TextDecoder().decode(base64);
+      })),
+      referenceUrls: this.getReferenceUrl()
+    }
+
+    console.log(projectData);
+    this.apiService.newProject(projectData)
+  }
+
+  public readFile(file: File ): string {
+    if (file) return URL.createObjectURL(file);
+    else return '';
+  }
+
+  protected getReferenceUrl(): ReferenceUrl[] {
+    return this.referenceUrls;
+  }
+
+  protected setReferenceUrl(): void {
+    const hostname = this.referenceUrlForm.value.hostname || '';
+    let url = this.referenceUrlForm.value.url || '';
+
+    if(hostname === '' || url === ''){
+      return this.toastError('Please fill all the fields');
+    }
+    if(url.startsWith('https://')){
+      url = url.replace('https://', '');
+    }
+    if(!url.startsWith('www.')){
+      url = `www.${url}`;
+    }
+
+    if(this.referenceUrls.find(ref => ref.hostname === hostname)){
+      return this.toastError(`${hostname} already exists`);
+    }
+
+    if(this.referenceUrls.find(ref => ref.url === url)){
+      return this.toastError(`${url} already exists`);
+    }
+
+    const icon = this.getIcon(url);
+    this.referenceUrls.push({hostname, url, icon});
+    console.log(this.referenceUrls)
+
+    this.referenceUrlForm.reset();
+    this.toastSuccess(`${hostname} added successfully`);
+  }
+
+  protected removeReferenceUrl(hostname: string): void {
+    const refUrl = this.referenceUrls.find(ref => ref.hostname === hostname);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Are you sure you want to remove ${refUrl?.hostname}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.referenceUrls = this.referenceUrls.filter(ref => ref.hostname !== hostname);
+        this.toastSuccess(`${refUrl?.hostname} removed successfully`);
+      }
+    });
+
+  }
+
+  protected setFiles(event: any): void {
+    const files: File[] = Array.from(event.target.files);
+    console.log(files);
+    if(files.length + this.imageList.length > this.maxFiles){
+      return this.toastError(`You can select only ${this.maxFiles} files`);
+    }
+    if(files.find((file: File) => file.size > this.maxFileSize)){
+      return this.toastError(`File size should be less than ${this.maxFileSize/1024/1024} MB`);
+    }
+    this.cdr.detectChanges();
+    this.imageList.push(...files);
+    for(const file of files){
+      this.imageLocalUrlList.push(this.readFile(file));
+    }
+  }
+
+  protected getFiles(): File[] {
+    return this.imageList;
+  }
+
+  protected removeFile(file: string): void {
+    this.cdr.detectChanges();
+    const i = this.imageLocalUrlList.indexOf(file);
+    this.imageLocalUrlList = this.imageLocalUrlList.filter(f => f !== file);
+
+    this.imageList = this.imageList.splice(i, 1);
+
+  }
+
+  protected setBanner(event: any): void {
+    const file = event.target.files[0];
+    if(file.size > this.maxFileSize){
+      return this.toastError(`File size should be less than ${this.maxFileSize/1024/1024} MB`);
+    }
+    this.banner = file;
+    this.bannerLocalUrl = this.readFile(file);
+    this.cdr.detectChanges();
+
+  }
+
+  protected getBanner(): File | null {
+    return this.banner;
+  }
+
+  private getIcon(url: string): string {
+    const matches = url.match(/^(?:https?:\/\/)?([^/?#]+)/i);
+    console.log(matches)
+    if (!matches || matches.length < 2) return '';
+
+    const domain ='https://'+ matches[1] + '/favicon.ico';
+    console.log(domain)
+    return domain ;
+  }
 
 }

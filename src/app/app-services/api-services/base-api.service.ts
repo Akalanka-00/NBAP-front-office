@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
+import {ConfigService} from "../configService/config.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,22 @@ import Swal from 'sweetalert2';
 
 export class BaseApiService {
 
-  private baseURL: string = 'http://localhost:8080'
+  private baseURL: string ='';
+  private config: ConfigService = new ConfigService(inject(HttpClient));
+  private static instance: BaseApiService;
+
+  constructor(protected http: HttpClient) {
+    if(!BaseApiService.instance || this.baseURL ===''){
+      this.config.init().then((response)=>{
+        const res : any = response;
+        this.baseURL = this.config.getBaseUrl();
+        BaseApiService.instance = this;
+      });
+    }
+
+    return BaseApiService.instance;
+  }
+
 
   public get(url: string, pathVariable?: string): Observable<HttpResponse<any>>{
     try {
@@ -72,7 +88,7 @@ export class BaseApiService {
     const newObj: Partial<T> = {};
     const params = new FormData();
     let i = false;
-    
+
     for(const key in obj){
       if(obj[key as keyof T] instanceof File ){
         params.append(key, obj[key as keyof T] as any);
@@ -94,5 +110,4 @@ export class BaseApiService {
     return output;
   }
 
-  constructor(protected http: HttpClient) { }
 }

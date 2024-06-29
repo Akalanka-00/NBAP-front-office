@@ -8,7 +8,7 @@
     .qualification-card-header{
         padding: 0.5rem ;
         padding-top: 1rem;
-        border-bottom: 1px solid #e1e1e1;   
+        border-bottom: 1px solid #e1e1e1;
          display: flex;
          flex-direction: row;
          align-items: center;
@@ -28,8 +28,14 @@
     .qualification-card-body-header{
         padding: 0.5rem ;
         padding-top: 1rem;
-        
 
-         
     }
+
+  .qualification-card-body-content-item{
+    border-bottom: 1px solid #e1e1e1;
+
+    &:last-child{
+        border-bottom: none;
+    }
+  }
 }

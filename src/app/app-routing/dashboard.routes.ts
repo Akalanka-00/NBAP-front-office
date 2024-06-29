@@ -7,15 +7,20 @@ import { UserSkillsComponent } from '../app-widgets/dashboard-widgets/user/skill
 import {
   UserStatisticsComponent
 } from "../app-widgets/dashboard-widgets/user/statistics/user-statistics/user-statistics.component";
+import {
+  UserProjectCreateComponent
+} from "../app-widgets/dashboard-widgets/user/projects/user-project-create/user-project-create.component";
 
 
 export const dashboardroutes: Routes = [
-     {path: 'user/overview', component: UserOverviewComponent},
-     {path: 'user/projects', component: UserProjectOverviewComponent },
-     {path: 'user/qualifications', component: UserQualificationsComponent },
-     {path: 'user/skills', component: UserSkillsComponent },
-     {path: 'user/statistics', component: UserStatisticsComponent },
-    // {path:'projects/new', component: ProjectCreationContainerComponent},
+    {path: 'user/overview', component: UserOverviewComponent},
+    {path: 'user/projects', component: UserProjectOverviewComponent },
+    {path: 'user/qualifications', component: UserQualificationsComponent },
+    {path: 'user/skills', component: UserSkillsComponent },
+    {path: 'user/statistics', component: UserStatisticsComponent },
+    {path:'user/projects/new', component: UserProjectCreateComponent},
+    {path:'user/projects/edit/:id', component: UserProjectCreateComponent},
+    {path:'user/projects/view/:id', component: UserProjectCreateComponent},
     // {path:'projects/view/:id', component: ProjectViewContainerComponent},
     // {path:'projects/edit/:id', component: ProjectCreationContainerComponent},
 

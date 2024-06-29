@@ -5,15 +5,23 @@ import { HttpClient } from "@angular/common/http";
 import { ApiEndpoints } from "../../app-constants/enum/api.enum";
 import { ProjectFormModel } from "../../app-models/project.model";
 import { HotToastService } from "@ngneat/hot-toast";
+import {SecureAPIService} from "./SecureAPIService";
+import {MessageGroup} from "../../app-constants/enum/app-request/MessageGroup";
+import {ProjectMessageType} from "../../app-constants/enum/app-request/messageTypes/ProjectMessageType";
+import {catchError} from "rxjs";
+import {BaseWidgetDirective} from "../../app-utils/base-widget/base-widget.directive";
 
 
 @Injectable({
     providedIn: 'root'
   })
-  export class ProjectAPIService  {
+  export class ProjectAPIService extends BaseWidgetDirective{
     private apiService = new BaseApiService(inject(HttpClient));
+    private secureApiService: SecureAPIService = new SecureAPIService();
 
-  constructor(private router: Router, private toast: HotToastService) {}
+  constructor() {
+    super();
+  }
 
   public  getProjects() {
      return this.apiService.get(ApiEndpoints.fetchProjects);
@@ -24,13 +32,21 @@ import { HotToastService } from "@ngneat/hot-toast";
  }
 
   public  newProject(data: ProjectFormModel) {
-    return this.apiService.post(ApiEndpoints.newProject, data).subscribe(
-      res =>{
-        console.log(res);
-        this.apiService.postErrorHandler(res);
-        this.toast.success(`${data.name} created successfully`);
-      }
-    )
+
+    return  this.secureApiService.secureRequest(MessageGroup.PROJECT, ProjectMessageType.CREATE, data)
+      .then((res)=>{
+        this.navigate("secure/user/projects").then(()=>{
+          this.toastSuccess("Project created successfully")
+
+        })
+    })
+      .catch((err)=>{
+        this.navigate("secure/user/projects").then(()=>{
+          this.toastError(err.message)
+
+        })      })
+
+
   }
 
   }
