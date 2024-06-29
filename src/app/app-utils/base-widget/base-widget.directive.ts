@@ -1,32 +1,18 @@
-import { AfterViewInit, Directive, Injector, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {AfterViewInit, Directive, inject, Injector, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
+import {Router} from "@angular/router";
 
 @Directive({
   selector: '[appBaseWidget]',
   standalone: true
 })
 export class BaseWidgetDirective implements OnChanges, OnInit, OnDestroy, AfterViewInit{
-  
 
-  constructor(private toast: HotToastService) { }
+  private toast: HotToastService = inject(HotToastService);
+  public router:Router = inject(Router);
 
-  public onInit(): void {
-
-	}
-
-  public onDestroy(): void {
-		
-	}
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public onChanges(changes: SimpleChanges): void {
-
-	}
-
-  public onViewAppear(): void {
-		// code here
-	}
+  public constructor() { }
 
   public delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -42,13 +28,14 @@ export class BaseWidgetDirective implements OnChanges, OnInit, OnDestroy, AfterV
   public ngOnDestroy(): void {
 		this.onDestroy();
   }
-  
+
   public ngAfterViewInit(): void {
-    this.onViewAppear();
+    this.afterViewInit();
   }
 
   public toastError(message: string): void {
     this.toast.error(message, {duration: 3000});
+    throw new Error(message)
   }
 
   public toastSuccess(message: string): void {
@@ -59,8 +46,12 @@ export class BaseWidgetDirective implements OnChanges, OnInit, OnDestroy, AfterV
     this.toast.warning(message, {duration: 3000});
   }
 
+  public async navigate(route: string): Promise<void> {
+    await this.router.navigate([route]);
+  }
+
   public validator( formGroup: FormGroup){
-    
+
     if(formGroup.get('fname')?.hasError('required')){
       this.toast.error("First name cannot be empty field!");
       return false;
@@ -108,13 +99,29 @@ export class BaseWidgetDirective implements OnChanges, OnInit, OnDestroy, AfterV
 
       if(formGroup.value.password !== formGroup.value.confirmPassword){
         this.toast.error("Password did not matched!");
-  
+
        }
      }
 
      return true;
-     
+
    }
 
+  private onInit(): void {
+
+  }
+
+  private onDestroy(): void {
+
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private onChanges(changes: SimpleChanges): void {
+
+  }
+
+  private afterViewInit(): void {
+    // code here
+  }
 
 }

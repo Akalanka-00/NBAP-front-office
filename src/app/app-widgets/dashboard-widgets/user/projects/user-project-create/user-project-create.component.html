@@ -1,1 +1,173 @@
-<p>user-project-create works!</p>
+<div class="fragment">
+  <div class="fragment-header">
+    <div class="fragment-title">New Project</div>
+  </div>
+
+  <div class="fragment-body">
+    <mat-stepper orientation="vertical" [linear]="isLinear" #stepper animationDuration="600">
+      <mat-step [stepControl]="detailsForm">
+        <form [formGroup]="detailsForm" action="" >
+          <ng-template matStepLabel>Project Details</ng-template>
+
+          <div class="form-group col-4 d-flex flex-column align-items-start justify-content-center gap-1 mt-1">
+            <label for="project_name">Project Name</label>
+            <input type="text" class="form-control" formControlName="projectName" id="project_name" placeholder="Project Name">
+          </div>
+
+          <div class="form-group col-4 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+            <label for="project_banner">Project Banner</label>
+            <input  type="file" class="form-control" (change)="setBanner($event)" id="project_banner" placeholder="Project Banner">
+
+            <div *ngIf="bannerLocalUrl!=''" class="image-preview">
+              <img class="banner-img mt-4" [src]="bannerLocalUrl"/>
+            </div>
+          </div>
+
+          <div class="project-duration">
+            <div class="row col-6">
+              <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                <label for="project_start_date">Project Start Date</label>
+                <input type="date" class="form-control" formControlName="projectStartDate" id="project_start_date" placeholder="Project Start Date" [max]="maxDate">
+              </div>
+
+              <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+                <label for="project_end_date">Project End Date</label>
+                <input type="date"  class="form-control" formControlName="projectEndDate" id="project_end_date" placeholder="Project End Date">
+
+
+              </div>
+            </div>
+
+            <div class="form-check form-switch mt-4">
+              <input class="form-check-input" type="checkbox" formControlName="canRate" role="switch" id="can-rate-check-btn">
+              <label class="form-check-label" for="can-rate-check-btn">Enable rating for this project</label>
+            </div>
+
+            <div class="form-check form-switch mt-2">
+              <input class="form-check-input" type="checkbox" formControlName="isPrivate" role="switch" id="is-private-check-btn">
+              <label class="form-check-label" for="is-private-check-btn">Mark this project as an private project</label>
+            </div>
+
+          </div>
+
+          <div class="form-group col-10 mt-4">
+            <label for="description">Description</label>
+            <textarea class="form-control mt-2" formControlName="description" id="description" rows="7"></textarea>
+          </div>
+
+
+
+          <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+            <div></div>
+            <button class="btn btn-primary"  matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="referenceUrlForm">
+        <form [formGroup]="referenceUrlForm">
+          <ng-template matStepLabel>Referencing URLs</ng-template>
+
+          <div class="row col-10 d-flex align-items-center justify-content-center">
+            <div class="form-group col-4 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+              <label for="hostname">Host name</label>
+              <input type="text" class="form-control" id="hostname" formControlName="hostname" placeholder="Host Name">
+            </div>
+
+            <div class="form-group col-6 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+              <label for="ref-url">Referenced URL</label>
+              <input type="url" class="form-control" formControlName="url" id="ref-url" placeholder="URL">
+            </div>
+
+            <div class="form-group col-2 d-flex flex-column align-items-start justify-content-center gap-1 mt-4">
+              <label for="add_url" style="height: 1.2rem;"></label>
+              <button class="btn btn-primary" (click)="setReferenceUrl()" id="add_url" >Add URL</button>
+            </div>
+
+          </div>
+
+          <div *ngIf="getReferenceUrl().length>0" class="row col-10 d-flex align-items-start justify-content-center mt-4">
+            <div class="project-urls-title fs-6 mb-2">Currently added URLS</div>
+            <div class="project-url-card card p-4 mx-4 d-flex gap-3">
+              <div *ngFor="let url of getReferenceUrl()" class=" project-url d-flex flex-row align-items-center justify-content-between gap-4">
+                <img class="img-fluid w-5 rounded-circle" [src]="url.icon"  alt="">
+                <div class="">{{ url.hostname }} </div>
+                <div class="">{{ url.url.length > 30 ? url.url.substring(0, 30)+"..." : url.url }}</div>
+                <a href="https://{{ url.url }}" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>
+                <button class="btn btn-unstyled" (click)="removeReferenceUrl(url.hostname)"><i class="bi bi-trash delete-btn"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+            <button class="btn btn-secondary"  matStepperPrevious>Back</button>
+            <button class="btn btn-primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="referenceUrlForm">
+        <form [formGroup]="referenceUrlForm">
+          <ng-template matStepLabel>Project Media files</ng-template>
+
+
+
+          <div class="form-group col-10 mt-4 file-upload-container">
+
+            <input #triggerFileInput type="file" class="file-drag-and-drop w-100" id="project-banner"  (change)="setFiles($event)" multiple >
+            <label for="project-banner">
+              <span class="upload-btn" >Upload Images</span>
+              <span class="upload-option-seperator"> ------------or------------ </span>
+              <span class="drag-and-drop-title">Drag and Drop</span></label>
+          </div>
+
+          <div *ngIf="imageLocalUrlList.length>0" class="image-list-container">
+            <div class="image-container" *ngFor="let image of imageLocalUrlList">
+              <img class="img-fluid image-item" [src]="image" [alt]="image">
+              <i class="bi bi-x-circle img-close-btn" (click)="removeFile(image)"></i>
+
+            </div>
+          </div>
+
+
+
+
+          <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+            <button class="btn btn-secondary"  matStepperPrevious>Back</button>
+            <button class="btn btn-primary" matStepperNext>Next</button>
+          </div>
+        </form>
+
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Summary</ng-template>
+
+        <form action="" (submit)="onSubmit($event)">
+          <div class="d-flex flex-column align-items-center justify-content-center" >
+            <img class="mt-2 img-fluid w-50 rounded-3" [src]="bannerLocalUrl"/>
+            <div class="title h2 mt-2">{{ detailsForm.value.projectName }}</div>
+            <div class="project-description px-4 mt-2">
+              {{ detailsForm.value.description }}
+            </div>
+          </div>
+
+          <div *ngIf="getReferenceUrl().length>0" class="d-flex flex-column align-items-start justify-content-start">
+            <div class="d-flex flex-row align-items-center justify-content-center gap-4 px-4 mt-2 " *ngFor="let url of getReferenceUrl()">
+              <img class="img-fluid w-5 rounded-circle" [src]="url.icon"  alt="">
+              <div class="">{{ url.hostname }} </div>
+              <a class="">{{ url.url }} </a>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row align-items-center justify-content-between gap-2 mt-4">
+            <button class="btn btn-secondary" disabled  matStepperPrevious>Back</button>
+            <button  class="btn btn-primary" type="submit" matStepperPrevious>Finish</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </div>
+
+
+</div>

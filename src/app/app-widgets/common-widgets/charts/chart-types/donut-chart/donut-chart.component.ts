@@ -63,7 +63,7 @@ export class DonutChartComponent  extends BaseWidgetDirective{
       series: [{
         type: 'pie',
         name: 'Browser share',
-        innerSize: '70%',
+        innerSize: '60%',
         data: [
           ['Chrome', 73.86],
           ['Edge', 11.97],

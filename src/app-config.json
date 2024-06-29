@@ -1,0 +1,6 @@
+{
+  "connectionConfig": {
+    "url": "localhost:8080",
+    "isSecure": false
+  }
+}

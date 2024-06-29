@@ -29,13 +29,13 @@ export class DashboardComponent extends BaseWidgetDirective {
 
   private currentUrl = this.router.url;
 
-  constructor(toast: HotToastService, private router: Router) {
-    super(toast);
+  constructor() {
+    super();
 
   }
 
 
-  public override onInit(): void {
+  public override ngOnInit(): void {
     this.menuItems = getSidebarItems(this.userRole);
     this.activeItem =
       this.menuItems.filter((item) => this.currentUrl.includes(item.URL))[0] ||

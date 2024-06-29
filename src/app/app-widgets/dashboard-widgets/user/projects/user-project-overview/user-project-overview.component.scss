@@ -12,11 +12,11 @@
         padding: 0.5rem ;
         padding-bottom: 1rem;
         padding-top: 1rem;
-        border-bottom: 1px solid #e1e1e1;    
-        
+        border-bottom: 1px solid #e1e1e1;
+
         .category-edit-btn{
             font-size: 0.8rem;
-            
+
         }
     }
 
@@ -25,7 +25,7 @@
     .project-comment-card-body,
     .project-list-card-body{
         padding-bottom: 1rem;
-        
+
         .category-item,
         .project-item,
         .comment-item{
@@ -35,11 +35,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
+            cursor: default;
             transition: all 0.1s;
             font-size: 0.8rem;
             border-radius: 10px;
-            
+            text-align: start;
+
             &:last-child{
                 border-bottom: none;;
             }
@@ -60,6 +61,22 @@
                 font-size: 1.2rem;
                 font-weight: 500;
             }
+
+          .project-action-item{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #3f3f3f;
+            cursor: pointer;
+
+            &:hover{
+                color: #093e75;
+
+
+            }
+          }
         }
     }
 }

@@ -12,10 +12,10 @@ import { BaseWidgetDirective } from '../../../app-utils/base-widget/base-widget.
   standalone: true,
   imports: [ CommonModule, ReactiveFormsModule],
   providers: [Router],
-  templateUrl: './app-signin.component.html',
-  styleUrl: './app-signin.component.scss'
+  templateUrl: './app-sign-in.component.html',
+  styleUrl: './app-sign-in.component.scss'
 })
-export class AppSigninComponent extends BaseWidgetDirective{
+export class AppSignInComponent extends BaseWidgetDirective{
 
   public signInForm = new FormGroup({
 
@@ -24,8 +24,8 @@ export class AppSigninComponent extends BaseWidgetDirective{
   });
 
   private user!: UserModel;
-  constructor(private router: Router,  private authService: AuthAPIService){
-    super(inject(HotToastService));
+  constructor(  private authService: AuthAPIService){
+    super();
   }
 
   public onSubmit(event: Event){

@@ -43,9 +43,6 @@ export class XhrInterceptor implements HttpInterceptor {
         const xhr = req.clone({
           headers: httpHeaders
         });
-
-        console.log(req)
-
       return next.handle(xhr).pipe(
 
         catchError((error: HttpErrorResponse): Observable<any> => {

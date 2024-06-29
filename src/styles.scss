@@ -42,9 +42,9 @@ $front-office-theme: mat.define-light-theme((
 
 body {
     margin: 0;
-    
+
   }
-  
+
   :root{
     --color-primary: #77a6f7;
     --color-secondary: #00887A;
@@ -55,31 +55,35 @@ body {
     --text-primary: #000000;
     --text-secondary: #FFFFFF;
     --color-text-gray: #6C757D;
-    
+
     --bg-primary: #FFFFFF;
     --color-bg-gradient: linear-gradient(90deg,#005bff,#be0dd9 98.96%);
 
   }
-  
+
   .border-title{
    -webkit-text-stroke:2px var(--color-primary);
    font-size: 2.5rem;
    font-weight: 800;
    color: var(--text-secondary);
-  
+
   }
-  
+
   .header-title{
     font-size: 3rem;
     color: var(--text-primary);
     font-weight: 700;
 
   }
-  
+
   .sub-title{
     font-size: 0.8rem;
     color: var(--color-text-gray);
     margin-top: -0.2rem;
   }
+
+
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
